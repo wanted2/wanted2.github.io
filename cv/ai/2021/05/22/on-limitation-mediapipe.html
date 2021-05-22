@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="https://gmpg.org/xfn/11" rel="profile" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1"
+  />
+
+  <title>
+     On Limitation of MediaPipe Holistic Face Detection Module &middot; AiFi 
+  </title>
+
+  
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface" />
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+  <!-- RSS -->
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="RSS"
+    href="/feed.xml"
+  />
+
+  <!-- Additional head bits without overriding original head -->
+  <style>
+    div.chart {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+  </style>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="http://bl.ocks.org/mbostock/raw/4061502/0a200ddf998aa75dfdb1ff32e16b680a15e5cb01/box.js"></script>
+</head>
+
+
+  <body class="post">
+
+    <div id="sidebar">
+  <header>
+    <div class="site-title">
+      <a href="/">
+        
+          <span class="back-arrow icon"><svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h24v24H0z" fill="none"/>
+  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+</svg></span>
+        
+        AiFi
+      </a>
+    </div>
+    <p class="lead">The official AiFi</p>
+  </header>
+  <nav id="sidebar-nav-links">
+  
+    <a class="home-link "
+        href="/">Home</a>
+  
+  
+
+  
+
+  
+
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+
+  
+
+
+  
+    
+  
+
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/ai.html">Artificial Intelligence</a>
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/cv.html">Computer Vision</a>
+    
+  
+
+  
+    
+  
+
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/non-english.html">Tiếng Việt, 日本語</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+      <a class="category-link "
+          href="/category/sre.html">Site Reliability Engineering</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+
+  <!-- Optional additional links to insert in sidebar nav -->
+</nav>
+
+  <a href="/about.html">About</a>
+
+  
+
+  <nav id="sidebar-icon-links">
+  
+
+  <a id="subscribe-link"
+     class="icon" title="Subscribe" aria-label="Subscribe"
+     href="/feed.xml">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6.18" cy="17.82" r="2.18"/>
+    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+</svg>
+  </a>
+
+  
+  
+  
+  
+
+  
+    <a id="tags-link"
+       class="icon"
+       title="Tags" aria-label="Tags"
+       href="/tags.html">
+      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+    </a>
+  
+
+  
+    <a id="search-link"
+       class="icon"
+       title="Search" aria-label="Search"
+       href="/search.html">
+      <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</svg>
+    </a>
+  
+
+  <!-- Optional additional links to insert for icons links -->
+</nav>
+
+  <p>
+  &copy; 2021.
+  <a href="/LICENSE.md">MIT License.</a>
+</p>
+
+</div>
+
+    <main class="container">
+      <header>
+  <h1 class="post-title">On Limitation of MediaPipe Holistic Face Detection Module</h1>
+</header>
+<div class="content">
+  <div class="post-meta">
+  <span class="post-date">22 May 2021</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/cv.html">
+          Computer Vision
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/ai.html">
+          Artificial Intelligence
+        </a>
+      
+    
+  </span>
+  <span class="share-page">
+    &bull;
+    <a href="https://twitter.com/intent/tweet?text=On Limitation of MediaPipe Holistic Face Detection Module&url=https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe.html&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://facebook.com/sharer.php?u=https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe.html" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
+</span>
+
+<span title="Estimated read time">
+  
+  
+    5 mins
+  
+</span>
+
+</div>
+
+  <div id="table-of-contents">
+  <h2>Index</h2>
+    <ol id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#lesson-1-mediapipe-works-poorly-in-multi-faces-scenario">Lesson 1: MediaPipe works poorly in multi-faces scenario</a></li>
+<li class="toc-entry toc-h2"><a href="#lesson-2-mediapipe-is-fast">Lesson 2: MediaPipe is fast</a></li>
+<li class="toc-entry toc-h2"><a href="#conclusion">Conclusion</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+</ol>
+  </div>
+
+  <div class="post-body">
+    <style>
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+
+<p><img src="/assets/img/annotated_image1.png" alt="" />
+<em><a href="https://www.neowin.net/news/microsoft-sets-a-new-world-record-for-most-people-in-a-selfie/">Source 1</a>, <a href="https://github.com/peiyunh/tiny/blob/master/data/demo/selfie.jpg">Source 2</a>, <strong>Credit: Microsoft</strong></em></p>
+
+<p>Google AI announced MediaPipe Holistic [1] as a simultaneous face, hand, and pose inference engine for on-device AI.
+As we knew, on-device AI works in a specialized environment such as Edge devices (Arduino, Raspberry Pi, Jetson Nano) and mobile devices (Android/iOS/…).
+These environments are characterized by limited computing power (except Jetson Nano, all are low-end CPUs), often no Internet (wifi modules maybe not embedded).
+Then MediaPipe is a great offer.
+It provides a consistent interface for working with deep learning models and computer vision models in various programming languages (Java, Swift, Python, Javascript, …).
+The solution is also end-to-end, so the code can be done by calling ready-to-use functions. <strong>But wait, such a big deal?</strong>
+This post provides a fairer view of the MediaPipe library for on-device face detection.
+<strong>The result is that, although MediaPipe is fast, however, the accuracy is limited for crowded scenes.</strong>
+<strong>It works best when there is only one person in the frame.</strong>
+<!--more--></p>
+
+<h2 id="lesson-1-mediapipe-works-poorly-in-multi-faces-scenario">Lesson 1: MediaPipe works poorly in multi-faces scenario</h2>
+
+<p>Let’s start with the famous selfie photo made by Microsoft Lumina 730.</p>
+
+<p><img src="https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie.jpg" alt="" /></p>
+
+<p>My code is as follows.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">mediapipe</span> <span class="k">as</span> <span class="n">mp</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="n">file_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'selfie.jpg'</span><span class="p">,</span> <span class="s">'selfie-3.jpg'</span><span class="p">,</span> <span class="s">'selfie-small.jpg'</span><span class="p">]</span>
+<span class="n">mp_face_detection</span> <span class="o">=</span> <span class="n">mp</span><span class="p">.</span><span class="n">solutions</span><span class="p">.</span><span class="n">face_detection</span>
+<span class="n">mp_drawing</span> <span class="o">=</span> <span class="n">mp</span><span class="p">.</span><span class="n">solutions</span><span class="p">.</span><span class="n">drawing_utils</span>
+
+<span class="c1"># For static images:
+</span><span class="k">with</span> <span class="n">mp_face_detection</span><span class="p">.</span><span class="n">FaceDetection</span><span class="p">(</span>
+    <span class="n">min_detection_confidence</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> <span class="k">as</span> <span class="n">face_detection</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="nb">file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">file_list</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Processing </span><span class="si">{</span><span class="nb">file</span><span class="si">}</span><span class="s"> ...'</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="p">.</span><span class="n">imread</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+    <span class="c1"># Convert the BGR image to RGB and process it with MediaPipe Face Detection.
+</span>    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">face_detection</span><span class="p">.</span><span class="n">process</span><span class="p">(</span><span class="n">cv2</span><span class="p">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="p">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">))</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Processed </span><span class="si">{</span><span class="nb">file</span><span class="si">}</span><span class="s"> in </span><span class="si">{</span><span class="n">t2</span><span class="o">-</span><span class="n">t1</span><span class="p">:.</span><span class="mi">5</span><span class="n">f</span><span class="si">}</span><span class="s"> second(s)'</span><span class="p">)</span>
+
+    <span class="c1"># Draw face detections of each face.
+</span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">results</span><span class="p">.</span><span class="n">detections</span><span class="p">:</span>
+      <span class="k">continue</span>
+    <span class="n">annotated_image</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">detection</span> <span class="ow">in</span> <span class="n">results</span><span class="p">.</span><span class="n">detections</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">'Nose tip:'</span><span class="p">)</span>
+      <span class="k">print</span><span class="p">(</span><span class="n">mp_face_detection</span><span class="p">.</span><span class="n">get_key_point</span><span class="p">(</span>
+          <span class="n">detection</span><span class="p">,</span> <span class="n">mp_face_detection</span><span class="p">.</span><span class="n">FaceKeyPoint</span><span class="p">.</span><span class="n">NOSE_TIP</span><span class="p">))</span>
+      <span class="n">mp_drawing</span><span class="p">.</span><span class="n">draw_detection</span><span class="p">(</span><span class="n">annotated_image</span><span class="p">,</span> <span class="n">detection</span><span class="p">)</span>
+    <span class="n">cv2</span><span class="p">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s">'./annotated_image'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">+</span> <span class="s">'.png'</span><span class="p">,</span> <span class="n">annotated_image</span><span class="p">)</span>
+</code></pre></div></div>
+<p>I downloaded the selfie photo and named it <code class="language-plaintext highlighter-rouge">selfie.jpg</code>.
+Since I speculated that MediaPipe does not work in such a scenario (More than 1,000 faces in one photo), I cropped two different versions: one with less than 100 faces (<code class="language-plaintext highlighter-rouge">selfie-small.jpg</code>) and one with only 3 big faces (<code class="language-plaintext highlighter-rouge">selfie-3.jpg</code>).</p>
+
+<div class="row">
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie.jpg" alt="Snow" style="width:100%" />
+    <p>Original photo</p>
+  </div>
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie-small.jpg" alt="Forest" style="width:100%" />
+    <p>Cropped image with less than 100 faces</p>
+  </div>
+  <div class="column">
+    <img src="https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie-3.jpg" alt="Mountains" style="width:100%" />
+    <p>Cropped image with 3 big faces</p>
+  </div>
+</div>
+<p>Results is as follows.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python run_mediapipe.py
+Processing selfie.jpg ...
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+INFO: Replacing 162 node(s) with delegate (TfLiteXNNPackDelegate) node, yielding 2 partitions.
+Processed selfie.jpg in 0.02069 second(s)
+Processing selfie-3.jpg ...
+Processed selfie-3.jpg in 0.00496 second(s)
+Nose tip:
+x: 0.62226236
+y: 0.37454954
+
+Nose tip:
+x: 0.23528881
+y: 0.65063083
+
+Nose tip:
+x: 0.43768775
+y: 0.32625142
+
+Processing selfie-small.jpg ...
+Processed selfie-small.jpg in 0.00852 second(s)
+</code></pre></div></div>
+
+<p>What this means is that, MediaPipe did not detect any faces in the original scenario (1,000 faces) and second scenario (about 100 faces).
+But when there are 3 big faces, the result is promising (no miss in the 3 faces I wanted to detect).
+<img src="/assets/img/annotated_image1.png" alt="" /></p>
+
+<p>Then for on-device AI, we cannot expect too much.
+The limits of them which I obtained from this example:</p>
+
+<ul>
+  <li>
+    <p><strong>Miss all faces in crowded scenes</strong>.</p>
+  </li>
+  <li>
+    <p><strong>Miss all small faces</strong>: even with <code class="language-plaintext highlighter-rouge">selfie-3.jpg</code>, only big faces (area is more than 10% of the whole image) can be detected well.
+Other small faces are missed.</p>
+  </li>
+</ul>
+
+<p>With low budgets, we cannot expect too much.</p>
+
+<p>One bright side of MediaPipe from this result is that <strong>because small faces are often missed, then false positives (spoofers) is not a serious problem</strong>.
+For critical applications such as face authentication, making wrong decisions (false positives) can lead to spoofers getting in the system, but if MediaPipe misses too many small faces, our small spoofers are omitted <strong>hopefully</strong> in return.</p>
+
+<h2 id="lesson-2-mediapipe-is-fast">Lesson 2: MediaPipe is fast</h2>
+
+<p>For the original image, MediaPipe took about 20 ms on average.
+For the small image (100 faces), it took about 10-15 ms.
+And for the smallest image, it took about 7-8 ms.</p>
+
+<p>Since MediaPipe is not good at crowded scenes, then we can speculate that it is used in scenarios with a few faces.
+In such scenarios, then 7-8ms/image, or 125 FPS is not bad.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>MediaPipe is fast but works poorly in crowded scenes.
+From this observation, one recommendation is to only use it in one-person or few-people scenarios.</p>
+
+<p>The source code can be found at my <a href="https://github.com/wanted2/mediapipe-multi-faces">Github</a>.</p>
+
+<h2 id="references">References</h2>
+
+<ol class="bibliography"><li><span id="GoogleAI54:online"><i>Google AI Blog: MediaPipe Holistic — Simultaneous Face, Hand and Pose Prediction, on Device</i>. https://ai.googleblog.com/2020/12/mediapipe-holistic-simultaneous-face.html.</span></li></ol>
+
+    
+
+
+
+<div class="post-tags">
+  
+    
+    <a href="/tags.html#on-device-ai">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">on-device AI</span>
+    </a>
+  
+    
+    <a href="/tags.html#face-detection">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">face detection</span>
+    </a>
+  
+    
+    <a href="/tags.html#mediapipe">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">mediapipe</span>
+    </a>
+  
+    
+    <a href="/tags.html#google-ai">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">google ai</span>
+    </a>
+  
+    
+    <a href="/tags.html#google">
+    
+      <span class="icon">
+        <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 0h24v24H0z" fill="none"/>
+    <path d="M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z"/>
+</svg>
+      </span>&nbsp;<span class="tag-name">google</span>
+    </a>
+  
+</div>
+  </div>
+
+  
+  <section class="comments">
+    <h2>Comments</h2>
+    
+  <div id="disqus_thread">
+    <button class="disqus-load" onClick="loadDisqusComments()">
+      Load Comments
+    </button>
+  </div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW
+  *  TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT:s
+  *  https://disqus.com/admin/universalcode/#configuration-variables
+  */
+  var disqus_config = function () {
+    this.page.url = "https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe.html";
+    this.page.identifier = "" ||
+                           "https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe.html";
+  }
+  function loadDisqusComments() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//caineng.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  </script>
+  <noscript>
+    Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript">comments powered by Disqus</a>.
+  </noscript>
+
+
+
+  </section>
+
+  <section class="related">
+  <h2>Related Posts</h2>
+  <ul class="posts-list">
+    
+      <li>
+        <h3>
+          <a href="/cv/ai/2021/05/20/understanding-object-detection-nms.html">
+            Understanding Object Detection Algorithms: the Non-maximum-suppression (NMS)
+            <small>20 May 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/non-english/2021/04/24/chon-de-tai-nghien-cuu-non-english.html">
+            Làm thế nào chọn đề tài nghiên cứu phù hợp với lựa chọn nghề nghiệp trong ngành trí tuệ nhân tạo?
+            <small>24 Apr 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/sre/ai/2021/04/03/aws-lambda-spacy-mxnet-possible-but-shouldnt.html">
+            Implementing a complex system in AWS Lambda: Should or shouldn't?
+            <small>03 Apr 2021</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</section>
+
+</div>
+
+    </main>
+
+    <!-- Optional footer content -->
+
+    <script src="https://kit.fontawesome.com/d0b91d895e.js" crossorigin="anonymous"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          processEscapes: true
+        }
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  </body>
+</html>

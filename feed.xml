@@ -1,4 +1,153 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://wanted2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://wanted2.github.io/" rel="alternate" type="text/html" /><updated>2021-05-20T23:38:34+07:00</updated><id>https://wanted2.github.io/feed.xml</id><title type="html">AiFi</title><subtitle>The official AiFi</subtitle><author><name>Tuan Nguyen-Anh</name></author><entry><title type="html">Understanding Object Detection Algorithms: the Non-maximum-suppression (NMS)</title><link href="https://wanted2.github.io/cv/ai/2021/05/20/understanding-object-detection-nms.html" rel="alternate" type="text/html" title="Understanding Object Detection Algorithms: the Non-maximum-suppression (NMS)" /><published>2021-05-20T00:00:00+07:00</published><updated>2021-05-20T00:00:00+07:00</updated><id>https://wanted2.github.io/cv/ai/2021/05/20/understanding-object-detection-nms</id><content type="html" xml:base="https://wanted2.github.io/cv/ai/2021/05/20/understanding-object-detection-nms.html">&lt;p&gt;&lt;img src=&quot;/assets/img/nms1.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://wanted2.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://wanted2.github.io/" rel="alternate" type="text/html" /><updated>2021-05-22T22:36:22+07:00</updated><id>https://wanted2.github.io/feed.xml</id><title type="html">AiFi</title><subtitle>The official AiFi</subtitle><author><name>Tuan Nguyen-Anh</name></author><entry><title type="html">On Limitation of MediaPipe Holistic Face Detection Module</title><link href="https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe.html" rel="alternate" type="text/html" title="On Limitation of MediaPipe Holistic Face Detection Module" /><published>2021-05-22T00:00:00+07:00</published><updated>2021-05-22T00:00:00+07:00</updated><id>https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe</id><content type="html" xml:base="https://wanted2.github.io/cv/ai/2021/05/22/on-limitation-mediapipe.html">&lt;style&gt;
+/* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: &quot;&quot;;
+  clear: both;
+  display: table;
+}
+&lt;/style&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/annotated_image1.png&quot; alt=&quot;&quot; /&gt;
+&lt;em&gt;&lt;a href=&quot;https://www.neowin.net/news/microsoft-sets-a-new-world-record-for-most-people-in-a-selfie/&quot;&gt;Source 1&lt;/a&gt;, &lt;a href=&quot;https://github.com/peiyunh/tiny/blob/master/data/demo/selfie.jpg&quot;&gt;Source 2&lt;/a&gt;, &lt;strong&gt;Credit: Microsoft&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Google AI announced MediaPipe Holistic [1] as a simultaneous face, hand, and pose inference engine for on-device AI.
+As we knew, on-device AI works in a specialized environment such as Edge devices (Arduino, Raspberry Pi, Jetson Nano) and mobile devices (Android/iOS/…).
+These environments are characterized by limited computing power (except Jetson Nano, all are low-end CPUs), often no Internet (wifi modules maybe not embedded).
+Then MediaPipe is a great offer.
+It provides a consistent interface for working with deep learning models and computer vision models in various programming languages (Java, Swift, Python, Javascript, …).
+The solution is also end-to-end, so the code can be done by calling ready-to-use functions. &lt;strong&gt;But wait, such a big deal?&lt;/strong&gt;
+This post provides a fairer view of the MediaPipe library for on-device face detection.
+&lt;strong&gt;The result is that, although MediaPipe is fast, however, the accuracy is limited for crowded scenes.&lt;/strong&gt;
+&lt;strong&gt;It works best when there is only one person in the frame.&lt;/strong&gt;
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;lesson-1-mediapipe-works-poorly-in-multi-faces-scenario&quot;&gt;Lesson 1: MediaPipe works poorly in multi-faces scenario&lt;/h2&gt;
+
+&lt;p&gt;Let’s start with the famous selfie photo made by Microsoft Lumina 730.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;My code is as follows.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;cv2&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;mediapipe&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mp&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;file_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'selfie.jpg'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'selfie-3.jpg'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'selfie-small.jpg'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mp_face_detection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;solutions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;face_detection&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mp_drawing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;solutions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drawing_utils&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# For static images:
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mp_face_detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FaceDetection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;min_detection_confidence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;face_detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Processing &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; ...'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cv2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Convert the BGR image to RGB and process it with MediaPipe Face Detection.
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;face_detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cv2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cvtColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cv2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;COLOR_BGR2RGB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;t2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sa&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Processed &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; in &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt; second(s)'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Draw face detections of each face.
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;annotated_image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;detection&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Nose tip:'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mp_face_detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_key_point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mp_face_detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FaceKeyPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NOSE_TIP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;mp_drawing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;draw_detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;annotated_image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;detection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cv2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imwrite&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'./annotated_image'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'.png'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;annotated_image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;I downloaded the selfie photo and named it &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;selfie.jpg&lt;/code&gt;.
+Since I speculated that MediaPipe does not work in such a scenario (More than 1,000 faces in one photo), I cropped two different versions: one with less than 100 faces (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;selfie-small.jpg&lt;/code&gt;) and one with only 3 big faces (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;selfie-3.jpg&lt;/code&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;column&quot;&gt;
+    &lt;img src=&quot;https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie.jpg&quot; alt=&quot;Snow&quot; style=&quot;width:100%&quot; /&gt;
+    &lt;p&gt;Original photo&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;column&quot;&gt;
+    &lt;img src=&quot;https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie-small.jpg&quot; alt=&quot;Forest&quot; style=&quot;width:100%&quot; /&gt;
+    &lt;p&gt;Cropped image with less than 100 faces&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;column&quot;&gt;
+    &lt;img src=&quot;https://raw.githubusercontent.com/wanted2/mediapipe-multi-faces/main/selfie-3.jpg&quot; alt=&quot;Mountains&quot; style=&quot;width:100%&quot; /&gt;
+    &lt;p&gt;Cropped image with 3 big faces&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Results is as follows.&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python run_mediapipe.py
+Processing selfie.jpg ...
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+INFO: Replacing 162 node(s) with delegate (TfLiteXNNPackDelegate) node, yielding 2 partitions.
+Processed selfie.jpg in 0.02069 second(s)
+Processing selfie-3.jpg ...
+Processed selfie-3.jpg in 0.00496 second(s)
+Nose tip:
+x: 0.62226236
+y: 0.37454954
+
+Nose tip:
+x: 0.23528881
+y: 0.65063083
+
+Nose tip:
+x: 0.43768775
+y: 0.32625142
+
+Processing selfie-small.jpg ...
+Processed selfie-small.jpg in 0.00852 second(s)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What this means is that, MediaPipe did not detect any faces in the original scenario (1,000 faces) and second scenario (about 100 faces).
+But when there are 3 big faces, the result is promising (no miss in the 3 faces I wanted to detect).
+&lt;img src=&quot;/assets/img/annotated_image1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then for on-device AI, we cannot expect too much.
+The limits of them which I obtained from this example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Miss all faces in crowded scenes&lt;/strong&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Miss all small faces&lt;/strong&gt;: even with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;selfie-3.jpg&lt;/code&gt;, only big faces (area is more than 10% of the whole image) can be detected well.
+Other small faces are missed.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;With low budgets, we cannot expect too much.&lt;/p&gt;
+
+&lt;p&gt;One bright side of MediaPipe from this result is that &lt;strong&gt;because small faces are often missed, then false positives (spoofers) is not a serious problem&lt;/strong&gt;.
+For critical applications such as face authentication, making wrong decisions (false positives) can lead to spoofers getting in the system, but if MediaPipe misses too many small faces, our small spoofers are omitted &lt;strong&gt;hopefully&lt;/strong&gt; in return.&lt;/p&gt;
+
+&lt;h2 id=&quot;lesson-2-mediapipe-is-fast&quot;&gt;Lesson 2: MediaPipe is fast&lt;/h2&gt;
+
+&lt;p&gt;For the original image, MediaPipe took about 20 ms on average.
+For the small image (100 faces), it took about 10-15 ms.
+And for the smallest image, it took about 7-8 ms.&lt;/p&gt;
+
+&lt;p&gt;Since MediaPipe is not good at crowded scenes, then we can speculate that it is used in scenarios with a few faces.
+In such scenarios, then 7-8ms/image, or 125 FPS is not bad.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;MediaPipe is fast but works poorly in crowded scenes.
+From this observation, one recommendation is to only use it in one-person or few-people scenarios.&lt;/p&gt;
+
+&lt;p&gt;The source code can be found at my &lt;a href=&quot;https://github.com/wanted2/mediapipe-multi-faces&quot;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;GoogleAI54:online&quot;&gt;&lt;i&gt;Google AI Blog: MediaPipe Holistic — Simultaneous Face, Hand and Pose Prediction, on Device&lt;/i&gt;. https://ai.googleblog.com/2020/12/mediapipe-holistic-simultaneous-face.html.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;</content><author><name>Tuan Nguyen-Anh</name></author><category term="cv" /><category term="ai" /><category term="on-device AI" /><category term="face detection" /><category term="mediapipe" /><category term="google ai" /><category term="google" /><summary type="html">Source 1, Source 2, Credit: Microsoft Google AI announced MediaPipe Holistic [1] as a simultaneous face, hand, and pose inference engine for on-device AI. As we knew, on-device AI works in a specialized environment such as Edge devices (Arduino, Raspberry Pi, Jetson Nano) and mobile devices (Android/iOS/…). These environments are characterized by limited computing power (except Jetson Nano, all are low-end CPUs), often no Internet (wifi modules maybe not embedded). Then MediaPipe is a great offer. It provides a consistent interface for working with deep learning models and computer vision models in various programming languages (Java, Swift, Python, Javascript, …). The solution is also end-to-end, so the code can be done by calling ready-to-use functions. But wait, such a big deal? This post provides a fairer view of the MediaPipe library for on-device face detection. The result is that, although MediaPipe is fast, however, the accuracy is limited for crowded scenes. It works best when there is only one person in the frame.</summary></entry><entry><title type="html">Understanding Object Detection Algorithms: the Non-maximum-suppression (NMS)</title><link href="https://wanted2.github.io/cv/ai/2021/05/20/understanding-object-detection-nms.html" rel="alternate" type="text/html" title="Understanding Object Detection Algorithms: the Non-maximum-suppression (NMS)" /><published>2021-05-20T00:00:00+07:00</published><updated>2021-05-20T00:00:00+07:00</updated><id>https://wanted2.github.io/cv/ai/2021/05/20/understanding-object-detection-nms</id><content type="html" xml:base="https://wanted2.github.io/cv/ai/2021/05/20/understanding-object-detection-nms.html">&lt;p&gt;&lt;img src=&quot;/assets/img/nms1.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The non-maximum-suppression (NMS) is one of the most common parts of object detection methods.
 The idea is to remove the overlapping bounding boxes and keep only the separated boxes in the detection result.
@@ -1725,19 +1874,4 @@ Note for the part &lt;code class=&quot;language-plaintext highlighter-rouge&quot
 &lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
 
 &lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;gu2016incorporating&quot;&gt;Gu, J., Lu, Z., Li, H., &amp;amp; Li, V. O. K. (2016). &lt;i&gt;Incorporating Copying Mechanism in Sequence-to-Sequence Learning&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;bahdanau2014neural&quot;&gt;Bahdanau, D., Cho, K., &amp;amp; Bengio, Y. (2014). Neural machine translation by jointly learning to align and translate. &lt;i&gt;ArXiv Preprint ArXiv:1409.0473&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;</content><author><name>Tuan Nguyen-Anh</name></author><category term="ai" /><category term="deep learning" /><category term="neural network" /><category term="neural machine translation" /><category term="question answering" /><category term="copynet" /><category term="seq2seq" /><category term="recurrent neural nets" /><summary type="html">CopyNet [1] is built upon the Seq2Seq framework [2] which improve accuracy by repeated patterns during conversations. First time hearing the name, I was confused because copying some parts of friend’s sentences is not technically interesting. However, I found that this copying mechanism is somewhat realistic: we are often copying each other even what other people are saying. For example, when your friend tell you that Hi, my name is Jessy!, then a popular response would be Hi, Jessy!. You should copy the name Jessy as a quite normal reaction. In contrast, if you are too imaginative and instead of copying, you generate a response like Hi, Michael to Jessy, this would be ridiculous. Then by incorporating the copying behavior into RNN Encoder-Decoder framework [2], it would make the question-answering goes smoothly.</summary></entry><entry><title type="html">Statistical Machine Translation: Alignment methods</title><link href="https://wanted2.github.io/ai/2021/02/03/neural-translation.html" rel="alternate" type="text/html" title="Statistical Machine Translation: Alignment methods" /><published>2021-02-03T00:00:00+07:00</published><updated>2021-02-03T00:00:00+07:00</updated><id>https://wanted2.github.io/ai/2021/02/03/neural-translation</id><content type="html" xml:base="https://wanted2.github.io/ai/2021/02/03/neural-translation.html">&lt;!--more--&gt;
-
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#introduction&quot; id=&quot;markdown-toc-introduction&quot;&gt;Introduction&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#statistical-machine-translation&quot; id=&quot;markdown-toc-statistical-machine-translation&quot;&gt;Statistical Machine Translation&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#neural-machine-translation&quot; id=&quot;markdown-toc-neural-machine-translation&quot;&gt;Neural Machine Translation&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;h3 id=&quot;statistical-machine-translation&quot;&gt;Statistical Machine Translation&lt;/h3&gt;
-&lt;ol class=&quot;bibliography&quot;&gt;&lt;li&gt;&lt;span id=&quot;koehn2009statistical&quot;&gt;Koehn, P. (2009). &lt;i&gt;Statistical machine translation&lt;/i&gt;. Cambridge University Press.&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span id=&quot;koehn2007moses&quot;&gt;Koehn, P., Hoang, H., Birch, A., Callison-Burch, C., Federico, M., Bertoldi, N., Cowan, B., Shen, W., Moran, C., Zens, R., &amp;amp; others. (2007). Moses: Open source toolkit for statistical machine translation. &lt;i&gt;Proceedings of the 45th Annual Meeting of the Association for Computational Linguistics Companion Volume Proceedings of the Demo and Poster Sessions&lt;/i&gt;, 177–180.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;h3 id=&quot;neural-machine-translation&quot;&gt;Neural Machine Translation&lt;/h3&gt;</content><author><name>Tuan Nguyen-Anh</name></author><category term="ai" /><category term="survey" /><category term="deep learning" /><category term="neural network" /><category term="neural machine translation" /><summary type="html"></summary></entry></feed>
+&lt;li&gt;&lt;span id=&quot;bahdanau2014neural&quot;&gt;Bahdanau, D., Cho, K., &amp;amp; Bengio, Y. (2014). Neural machine translation by jointly learning to align and translate. &lt;i&gt;ArXiv Preprint ArXiv:1409.0473&lt;/i&gt;.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;</content><author><name>Tuan Nguyen-Anh</name></author><category term="ai" /><category term="deep learning" /><category term="neural network" /><category term="neural machine translation" /><category term="question answering" /><category term="copynet" /><category term="seq2seq" /><category term="recurrent neural nets" /><summary type="html">CopyNet [1] is built upon the Seq2Seq framework [2] which improve accuracy by repeated patterns during conversations. First time hearing the name, I was confused because copying some parts of friend’s sentences is not technically interesting. However, I found that this copying mechanism is somewhat realistic: we are often copying each other even what other people are saying. For example, when your friend tell you that Hi, my name is Jessy!, then a popular response would be Hi, Jessy!. You should copy the name Jessy as a quite normal reaction. In contrast, if you are too imaginative and instead of copying, you generate a response like Hi, Michael to Jessy, this would be ridiculous. Then by incorporating the copying behavior into RNN Encoder-Decoder framework [2], it would make the question-answering goes smoothly.</summary></entry></feed>
