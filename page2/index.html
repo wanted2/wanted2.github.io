@@ -19,13 +19,13 @@
 
   
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2CDTCF0EP6"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', '');
+    gtag('config', 'G-2CDTCF0EP6');
   </script>
 
 
@@ -135,6 +135,27 @@
 
   
     
+      <a class="page-link "
+          href="/projects.html">Projects and Demos</a>
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
+  
+    
+  
+
   
 
   
@@ -179,12 +200,6 @@
 
   
     
-  
-
-  
-    
-  
-
   
 
   
@@ -237,6 +252,10 @@
 
   
     
+  
+
+  
+    
       <a class="category-link "
           href="/category/se.html">Software Engineering</a>
     
@@ -258,8 +277,6 @@
   
 
   
-    
-  
 
   
     
@@ -293,6 +310,16 @@
     
   
 
+  
+    
+  
+
+  
+    
+  
+
+  
+    
   
 
   
@@ -374,12 +401,308 @@
   
   <article class="post-body">
     <h2 class="post-title">
-      <a href="/pm/se/2021/08/28/aggregation-segregation.html">
-        Aggregation and Segregation
+      <a href="/non-english/se/2021/10/10/parallelism-clients-developer-business.html">
+        Lập trình song song với đối ứng khách hàng: khách hàng business và khách hàng developer
       </a>
     </h2>
     <div class="post-meta">
-  <span class="post-date">28 Aug 2021</span>
+  <span class="post-date">10 Oct 2021</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/non-english.html">
+          Tiếng Việt, 日本語
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/se.html">
+          Software Engineering
+        </a>
+      
+    
+  </span>
+  <span class="share-page">
+    &bull;
+    <a href="https://linkedin.com/shareArticle?url=https://wanted2.github.io/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=Home&url=https://wanted2.github.io/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://facebook.com/sharer.php?u=https://wanted2.github.io/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
+</span>
+
+</div>
+
+
+    
+      <p><img src="https://cdn.stocksnap.io/img-thumbs/960w/meeting-booth_7FLAARLMPI.jpg" alt="b2d" />
+<em>Source: StockSnap.io</em></p>
+
+<p><strong>Khách hàng business (non-dev)</strong> là những người không có chức năng tham gia trực tiếp vào quy trình phát triển.
+Bản thân họ có thể thuê thêm tư vấn/QA bên ngoài hoặc bên trong công ty họ để đảm bảo khâu chất lượng sản phẩm.
+Tuy nhiên, nhìn chung cái họ quan tâm là kết quả sản phẩm (bao gồm cả deadline, resources) hơn là quy trình.
+Cũng có một số khách hàng business cũng sẽ đòi hỏi về mặt quy trình, nhưng đó thường là để đảm bảo chất lượng.
+Vì mối quan tâm lớn nhất của họ là sản phẩm nên việc QA đảm bảo chất lượng cao là việc không thể tránh khỏi (bởi bản thân có biết dev đâu thì đương nhiên phải quan tâm QA).
+Bên cạnh đó, <strong>khách hàng developer</strong> là những khách hàng mà bản thân họ cũng sẽ là dev trong sản phẩm.
+Khác với khách hàng business là những người sẽ không trực tiếp tham gia vào quy trình tạo ra sản phẩm, khách hàng dev lại là những người tham gia cùng đội dev vào quá trình đó.
+Họ sẽ quan tâm việc <strong>có cùng code được với nhau (quy trình) không</strong> hơn là sản phẩm cuối cùng.
+Vì sao? Vì họ cũng chịu trách nhiệm làm ra sản phẩm, và họ hiểu là kết quả là do cả team cùng làm ra nên kết quả do team quyết định.
+Vì vậy để ra một kết quả tốt thì yếu tố quan trọng nhất chính là <strong>có làm việc được với nhau không</strong> và làm việc $=$ code đấy nhé!
+Chỉ cần code thôi với những khách hàng này! Nên phần lớn những vị trí không tham gia trực tiếp vào code là đa phần biến thành “người thừa” trong mắt họ.
+Khách hàng business (không thể dev) thì trong mắt họ quan trọng nhất là quản lý để đảm bảo tiến độ cho họ và các vị trí bảo đảm chất lượng cho họ như PM, tester, QA.
+Còn với khách hàng developer (có thể dev và là dev xịn) thì trong mắt họ lại chỉ quan trọng những vị trí tạo ra code (và phải là code xịn), QA, tester, quản lý có khi họ đảm nhiệm hết vì họ cũng là dev lâu năm trong nghề (<em>có lần tôi bị phân vào dự án mà khách phủ đầu ngay là mọi việc liên quan tới những mảng kia họ sẽ làm hết, chúng tôi chỉ được phép <strong>code</strong> thôi</em>).
+Cách đối đãi thì có nhiều góc nhìn, tôi thì cũng chủ yếu làm kỹ thuật nên sẽ cung cấp cách nhìn về định hướng quy trình từ đầu với từng loại khách theo hệ quy chiếu của lập trình đa luồng.</p>
+
+
+    
+
+    
+      
+      
+      
+
+      
+        <a href="/non-english/se/2021/10/10/parallelism-clients-developer-business.html">More &hellip;</a>
+      
+    
+  </article>
+  
+  <article class="post-body">
+    <h2 class="post-title">
+      <a href="/non-english/se/2021/10/08/git-merge-rebase.html">
+        So sánh git merge và git rebase
+      </a>
+    </h2>
+    <div class="post-meta">
+  <span class="post-date">08 Oct 2021</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/non-english.html">
+          Tiếng Việt, 日本語
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/se.html">
+          Software Engineering
+        </a>
+      
+    
+  </span>
+  <span class="share-page">
+    &bull;
+    <a href="https://linkedin.com/shareArticle?url=https://wanted2.github.io/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=Home&url=https://wanted2.github.io/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://facebook.com/sharer.php?u=https://wanted2.github.io/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
+</span>
+
+</div>
+
+
+    
+      <p><img src="/assets/img/git.svg" alt="git" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">git merge</code> và <code class="language-plaintext highlighter-rouge">git rebase</code> là 2 câu lệnh quen thuộc với lập trình viên chỉ để giải quyết cùng 1 bài toán: với 2 branches được phát triển song song, nay cần migrate các tính năng của branch feature vào branch chính (<code class="language-plaintext highlighter-rouge">main</code>).
+Vấn đề là làm thế nào? Một cách chi tiết thì chỉ có 2 cách tương ứng với 2 câu lệnh ở trên tiêu đề bài viết mà chúng ta sẽ đi sâu trong bài này.</p>
+
+    
+
+    
+      
+      
+      
+
+      
+        <a href="/non-english/se/2021/10/08/git-merge-rebase.html">More &hellip;</a>
+      
+    
+  </article>
+  
+  <article class="post-body">
+    <h2 class="post-title">
+      <a href="/non-english/se/2021/09/27/agile-feature.html">
+        アジャイル開発でタスクにアサインされる場合、直ぐにやるかどうかどうやって判定するか？
+      </a>
+    </h2>
+    <div class="post-meta">
+  <span class="post-date">27 Sep 2021</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/non-english.html">
+          Tiếng Việt, 日本語
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/se.html">
+          Software Engineering
+        </a>
+      
+    
+  </span>
+  <span class="share-page">
+    &bull;
+    <a href="https://linkedin.com/shareArticle?url=https://wanted2.github.io/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=Home&url=https://wanted2.github.io/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://facebook.com/sharer.php?u=https://wanted2.github.io/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
+</span>
+
+</div>
+
+
+    
+      <p><img src="https://docs.microsoft.com/en-us/learn/azure-devops/get-started-with-devops/media/2-vsm-whiteboard1.png" alt="Agile" />
+<em>Source: Microsoft</em></p>
+
+<p>アジャイル開発現場では、看板に乗っているタスクをメンバーに割り当てる際に、そのメンバーは直ぐにそのタスクをやるかどうか見てみます。
+時々、<strong>どうやってやるかどうかを決める方法について教えてください</strong>とよく言われています。
+まずは、<strong>優先順位</strong>を決めて、一番優先の高いタスクを取ってやるから、依頼したタスクはその優先順位トップに入らない場合、断ります。
+トップに入るとやります。
+しかし、ここで微妙にどうやってその優先順位を早く決めるか方法論を考えたいですが、やはり<code class="language-plaintext highlighter-rouge">PriorityQueue</code>を使いたいです。
+第一優先のタスクを$O(1)$時間量で計算できます。
+次に、<strong>決定木</strong>を使うべきです。
+優先順位がつかない場合、いくつかの<code class="language-plaintext highlighter-rouge">Yes/No</code>質疑でやるかどうかを決めることもできます。</p>
+
+
+    
+
+    
+      
+      
+      
+
+      
+        <a href="/non-english/se/2021/09/27/agile-feature.html">More &hellip;</a>
+      
+    
+  </article>
+  
+  <article class="post-body">
+    <h2 class="post-title">
+      <a href="/pm/sre/non-english/2021/09/09/secure-browser.html">
+        セキュアブラウザについて
+      </a>
+    </h2>
+    <div class="post-meta">
+  <span class="post-date">09 Sep 2021</span>
+  <span class="post-categories">
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/pm.html">
+          Project Management
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/sre.html">
+          Site Reliability Engineering
+        </a>
+      
+    
+      &bull;
+
+      
+      
+      
+
+      
+        <a href="/category/non-english.html">
+          Tiếng Việt, 日本語
+        </a>
+      
+    
+  </span>
+  <span class="share-page">
+    &bull;
+    <a href="https://linkedin.com/shareArticle?url=https://wanted2.github.io/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=Home&url=https://wanted2.github.io/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://facebook.com/sharer.php?u=https://wanted2.github.io/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
+</span>
+
+</div>
+
+
+    
+      <p><img src="/assets/img/secure-browser.png" alt="secure-browser" /></p>
+
+<p>中小企業向け<a href="https://www.soumu.go.jp/menu_news/s-news/01cyber01_02000001_00111.html">テレワークセキュリティガイドライン（第5版）</a> [1]が令和3年5月には公表されました。
+無料で直ぐに点検できますので、結構貴重な資料であろう。
+その中で、セキュアブラウザを用いたテレワークのセキュリティガイドラインも一章ぐらいあります。
+普通にウエブサイトを閲覧するためのIEやChromeなどもブラウザですが、セキュアブラウザって何でしょうか？
+さらに、一般のブラウザと比べると付加価値とは何か？
+ひょっとしたら調べていきます。
+専門家レベルに対し豆知識かもしれないが、市民講座に参加するエンドユーザのレベルで理解できなければ、普及を妨げるし、セキュリティ向上につながらないため、頑張って調べます。</p>
+
+
+    
+
+    
+      
+      
+      
+
+      
+        <a href="/pm/sre/non-english/2021/09/09/secure-browser.html">More &hellip;</a>
+      
+    
+  </article>
+  
+  <article class="post-body">
+    <h2 class="post-title">
+      <a href="/pm/se/2021/09/03/c4-diagrams-software-design.html">
+        C4 diagrams for software architecture visualization - Context, Containers, Components, and Code -
+      </a>
+    </h2>
+    <div class="post-meta">
+  <span class="post-date">03 Sep 2021</span>
   <span class="post-categories">
     
       &bull;
@@ -409,82 +732,26 @@
   </span>
   <span class="share-page">
     &bull;
-    <a href="https://linkedin.com/shareArticle?url=https://www.caineng.in/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
-    <a href="https://twitter.com/intent/tweet?text=Home&url=https://www.caineng.in/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://facebook.com/sharer.php?u=https://www.caineng.in/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
+    <a href="https://linkedin.com/shareArticle?url=https://wanted2.github.io/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
+    <a href="https://twitter.com/intent/tweet?text=Home&url=https://wanted2.github.io/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://facebook.com/sharer.php?u=https://wanted2.github.io/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
 </span>
 
 </div>
 
 
     
-      <p><img src="https://miro.medium.com/max/1400/1*YzBpqn1XSHOz9UpKc6HcJg.png" alt="ISP" />
-<em>Source: Medium</em></p>
+      <p><img src="https://res.infoq.com/articles/C4-architecture-model/en/resources/c4-1-1529934729133.jpg" alt="" />
+<em>Source: InfoQ</em></p>
 
-<p><strong>Interface Segregation Principle (ISP)</strong> is one of the five pillars in SOLID design principles.
-The main spirit of ISP is that user interfaces shouldn’t rely on features or operations they don’t need.
-Therefore, instead of designing an aggregated interface that contains functions for various member classes, we should segregate the functions into several sub-interfaces, for which each type of user only needs to a specific feature.
-When other features change, the current feature is not affected, and the user service will not be interrupted.</p>
-
-    
-
-    
-      
-      
-      
-
-      
-        <a href="/pm/se/2021/08/28/aggregation-segregation.html">More &hellip;</a>
-      
-    
-  </article>
-  
-  <article class="post-body">
-    <h2 class="post-title">
-      <a href="/non-english/2021/08/26/mobile-and-web.html">
-        Phân tích xu hướng: Tại sao các hiện tượng thành công gần đây lại ít có phiên bản web hơn ứng dụng mobile?
-      </a>
-    </h2>
-    <div class="post-meta">
-  <span class="post-date">26 Aug 2021</span>
-  <span class="post-categories">
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/non-english.html">
-          Tiếng Việt, 日本語
-        </a>
-      
-    
-  </span>
-  <span class="share-page">
-    &bull;
-    <a href="https://linkedin.com/shareArticle?url=https://www.caineng.in/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
-    <a href="https://twitter.com/intent/tweet?text=Home&url=https://www.caineng.in/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://facebook.com/sharer.php?u=https://www.caineng.in/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
-</span>
-
-</div>
-
-
-    
-      <p><img src="https://jp.techcrunch.com/wp-content/uploads/2020/05/clubhouse-voice-chat-social-network.jpg?w=738" alt="Clubhouse" />
-<em>Source: TechCrunch Japan</em></p>
-
-<p>Cũng phải 9-10 năm trước đây, khi mới bắt đầu làm các nền tảng với mong muốn xây dựng “một phút huy hoàng rồi vụt tắt”, tôi hay thấy các nhà phát triển lựa chọn cùng lúc phát triển 3 phiên bản: Web, mobile (Android/iOS) và một bản có thể desktop.
-Đó là những năm 2012 và việc đó chủ yếu để tăng độ phủ của dịch vụ.
-Nhưng năm nay là năm 2021, và chúng ta không thể hướng dẫn các em trẻ bằng bộ não của những “ông già” mà thời huy hoàng từ những năm 2012.
-Năm 2021, chúng ta cũng cần cập nhật và nhìn lại những ứng dụng thành công trong 2 năm qua của kỷ nguyên COVID, tôi chợt nhận ra:
-ứng dụng ClubHouse thành công gọi vốn vòng C tương đương 100 triệu đô lẻ nhưng không hề cung cấp giao diện web, chỉ toàn ứng dụng mobile.
-Ứng dụng na ná thế của Việt Nam là onMic cũng không thèm chơi với web luôn!
-Ồ, chúng ta đã già rồi với giới trẻ có lẽ đã không còn mặn mà với việc xây một phiên bản cho desktop browser nữa.
-<strong>Năm 2021 phải là thời đại của mobile</strong>.
-Chúng ta có lẽ đã sai, và cũng nên nhìn nhận lại khả năng của mobile apps (native chứ không phải nhúng mấy cái Javascript vớ vẩn)!</p>
+<p>Using MS Word and Excel, an engineer can describe the system in language and visuals.
+Such conventional methodologies can be sufficient for small architecture with few components.
+When the software system scales and changes frequently, maintaining records of the architecture by documents can be tedious.
+Hence, the lack of interaction in conventional document methods may present a stiff learning curve for a new member to the project team.
+To cope with these challenges, the <strong>C4 diagram model [1, 2, 3]</strong> was created to give interactive views of the software architectures.
+Systems are modeled at four different levels: system context, containers, components, and code.
+These levels are represented by diagrams.
+Intuitively, we can see the C4 diagrams as large visualization systems in which engineers can zoom in and out to see the details and the big picture.</p>
 
 
     
@@ -495,209 +762,7 @@ Chúng ta có lẽ đã sai, và cũng nên nhìn nhận lại khả năng của
       
 
       
-        <a href="/non-english/2021/08/26/mobile-and-web.html">More &hellip;</a>
-      
-    
-  </article>
-  
-  <article class="post-body">
-    <h2 class="post-title">
-      <a href="/non-english/se/2021/08/25/open-close-principle.html">
-        Nguyên lý đóng mở: Để thay đổi hãy thêm mới chứ đừng sửa cái cũ
-      </a>
-    </h2>
-    <div class="post-meta">
-  <span class="post-date">25 Aug 2021</span>
-  <span class="post-categories">
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/non-english.html">
-          Tiếng Việt, 日本語
-        </a>
-      
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/se.html">
-          Software Engineering
-        </a>
-      
-    
-  </span>
-  <span class="share-page">
-    &bull;
-    <a href="https://linkedin.com/shareArticle?url=https://www.caineng.in/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
-    <a href="https://twitter.com/intent/tweet?text=Home&url=https://www.caineng.in/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://facebook.com/sharer.php?u=https://www.caineng.in/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
-</span>
-
-</div>
-
-
-    
-      <p><img src="/assets/img/OCP.PNG" alt="ocp principle" /></p>
-
-<p>Một ngày đẹp trời, khách hàng gửi yêu cầu thay đổi phần mềm để chữa lỗi hiển thị trên chức năng báo cáo tài chính.
-Một lập trình viên lão luyện đều sẽ hiểu ngay nguyên lý căn bản mà họ phải động đến sẽ là <strong>nguyên lý đóng mở (Open/Closed Principle hay OCP, [2])</strong>.
-Dù là chữa lỗi thì sửa một đoạn code có sẵn trong hệ thống cũng là <strong>hành vi sai trái</strong>  so với bộ nguyên tắc SOLID của thiết kế phần mềm.
-Nguyên lý đóng mở (OCP) trong thiết kế phần mềm nêu rõ: “<em>Mọi thiết kế phần mềm nên mở với thay đổi, nhưng đóng với sửa cái vốn có</em>”.
-Một kỹ sư phần mềm lão luyện sẽ hiểu để <strong>chữa lỗi</strong> thì hành vi sửa cái đang code đang có do người trước viết ra (dù người đó là chính mình) đều là hành vi thiếu suy nghĩ: đúng hơn là phải thêm code mới để sửa lại tính năng bị lỗi.</p>
-
-    
-
-    
-      
-      
-      
-
-      
-        <a href="/non-english/se/2021/08/25/open-close-principle.html">More &hellip;</a>
-      
-    
-  </article>
-  
-  <article class="post-body">
-    <h2 class="post-title">
-      <a href="/non-english/se/2021/08/22/synchronized-and-diversity-detail-and-abstract.html">
-        Đồng bộ và đa dạng, cũng như chi tiết và chung chung
-      </a>
-    </h2>
-    <div class="post-meta">
-  <span class="post-date">22 Aug 2021</span>
-  <span class="post-categories">
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/non-english.html">
-          Tiếng Việt, 日本語
-        </a>
-      
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/se.html">
-          Software Engineering
-        </a>
-      
-    
-  </span>
-  <span class="share-page">
-    &bull;
-    <a href="https://linkedin.com/shareArticle?url=https://www.caineng.in/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
-    <a href="https://twitter.com/intent/tweet?text=Home&url=https://www.caineng.in/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://facebook.com/sharer.php?u=https://www.caineng.in/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
-</span>
-
-</div>
-
-
-    
-      <p><img src="https://www.baokhanhhoa.vn/dataimages/201911//original/images5384591_rac_thai.jpg" alt="" />
-<em>Nguồn: <a href="https://www.baokhanhhoa.vn/xa-hoi/moitruong-dothi/201911/tai-che-phan-loai-rac-thai-nhua-con-nhieu-kho-khan-8139146/">Báo Khánh Hòa Điện Tử</a></em></p>
-
-<p><strong>Đồng bộ (tiếng Anh: synchronized)</strong> thể hiện sự đồng thuận, thống nhất về trạng thái giữa một hay nhiều thành phần của hệ thống.
-Trong khi sự <strong>đa dạng (tiếng Anh: diversity)</strong> thể hiện sự phong phú, đa hình thái, trạng thái cùng tồn tại trong một hệ thống.
-Mỗi khái niệm đều có tầm ảnh hưởng và ứng dụng riêng và không hề thiếu tầm quan trọng trong cuộc sống hàng ngày.</p>
-
-
-    
-
-    
-      
-      
-      
-
-      
-        <a href="/non-english/se/2021/08/22/synchronized-and-diversity-detail-and-abstract.html">More &hellip;</a>
-      
-    
-  </article>
-  
-  <article class="post-body">
-    <h2 class="post-title">
-      <a href="/ai/sre/2021/08/19/idle-time-pricing-models.html">
-        Idle Time Pricing Models in the Cloud
-      </a>
-    </h2>
-    <div class="post-meta">
-  <span class="post-date">19 Aug 2021</span>
-  <span class="post-categories">
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/ai.html">
-          Artificial Intelligence
-        </a>
-      
-    
-      &bull;
-
-      
-      
-      
-
-      
-        <a href="/category/sre.html">
-          Site Reliability Engineering
-        </a>
-      
-    
-  </span>
-  <span class="share-page">
-    &bull;
-    <a href="https://linkedin.com/shareArticle?url=https://www.caineng.in/page2/" target="_blank"><i class="fa fa-linkedin"></i></a>
-    <a href="https://twitter.com/intent/tweet?text=Home&url=https://www.caineng.in/page2/&via=&related=" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter"></i></a>
-    <a href="https://facebook.com/sharer.php?u=https://www.caineng.in/page2/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fa fa-facebook-square"></i></a>
-</span>
-
-</div>
-
-
-    
-      <p><img src="/assets/img/batch.png" alt="" /></p>
-
-<p><strong>Batch processing (JP: バッチ処理, VI: Xu Lý Lô)</strong> is the processing of jobs that can run without end-user interaction or can be scheduled to run as resources permit.
-A program that reads a large file and generates a report, for example, is considered to be a batch job.
-Services such as Azure Batch [1] and AWS Batch [2, 3] support runs of batch jobs with VMs/EC2 instances and serverless container backend.
-However, running batch jobs requires VMs and instances to run continuously in production with almost <strong>zero downtime</strong>.
-It also means that there will be <strong>idle time</strong> to keep batch jobs running in the background.
-We review and estimate the idle time pricing of several cloud-based batch processing services.</p>
-
-    
-
-    
-      
-      
-      
-
-      
-        <a href="/ai/sre/2021/08/19/idle-time-pricing-models.html">More &hellip;</a>
+        <a href="/pm/se/2021/09/03/c4-diagrams-software-design.html">More &hellip;</a>
       
     
   </article>
